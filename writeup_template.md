@@ -18,7 +18,7 @@ The goals / steps of this project are the following:
 
 [image1]: ./examples/01-calibration.png "Camera Calibration"
 [image2]: ./examples/02-undistort_chessboard.png "Distorted Vs Undistorted Chessboard Images"
-[image3]: ./examples/03-undistortedimages "Undistorted Images"
+[image3]: ./examples/03-undistortedimages.png "Undistorted Images"
 [image4]: ./examples/04-colorschemes.png "Color Schemes"
 [image5]: ./examples/05-perspectivetransform.png "Perspective Transform"
 [image6]: ./examples/06-SobelAbsoluteGradient.png "Sobel Absolute Gradient"
