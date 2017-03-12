@@ -1,6 +1,4 @@
-##Writeup Template
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
+##Self Driving Car Nano Degree
 ---
 
 **Advanced Lane Finding Project**
@@ -218,9 +216,9 @@ The painted lane image is annotated by calling cv2.putText() method in put_data_
 
 ####1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
-Here's the link to Project Video ![alt text][video1]
-Here's the link to Challenge Video output ![alt text][video2]
-Here's the link to Harder Challenge Video output ![alt text][video3]
+Here's the [link to my video result](./project_video_output.mp4)
+Here's the [link to my challenge video result](./challenge_video_output.mp4)
+Here's the [link to my harder challenge video result](./harder_challenge_video_output.mp4)
 
 ---
 
