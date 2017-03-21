@@ -3,6 +3,10 @@
 
 **Advanced Lane Finding Project**
 
+* Latest Update - In my second iteration I have removed gradients and focused on R-Channel from RGB colorspace, V-Channel from HSV, L-Channel from from HLS colorspace and B-Channel from LAB colorspace to reduce wobbliness in the video. Although wobbliness could not be eliminated completely, the instances have been significantly minimized and confined to the lane the car is traveling. The R and V color channels handle the overcast, bright and shadow conditions we encounter on the road.
+
+Here is the latest [link to my video result](./project_video_output.mp4)
+
 The goals / steps of this project are the following:
 
 * Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
@@ -229,6 +233,7 @@ Here's the [link to my harder challenge video result](./harder_challenge_video_o
 The major problems I encountered were in the challenge videos:
 1. In the Challenge video the painting of lanes has been found to be wobbly, however as the car approached closer to the curve it tried to rectify back into the lane. Tuning the radius of curvature would help reduce the wobbliness and risk of crossing into the adjacent lane.
 2. In the harder challenge my pipeline process could not detect conditions like excessive sun light, reflections and transition from excess light to shadows due to trees. The wobbliness in curves is more prominent in this video. However I did not see the car veer out of the track. Fine tuning the left and right fits might reduce wobbliness.
+Since I was tasked to re-review the wobbliness, I have explored color channels R from RGB and V from HSV to improve accuracy of finding white, yellow and dashed lines accurately even during the overcast, bright and shadow conditions. The performance of the pipeline improved significantly.
 
 Scope for improvement:
 - Testing pipeline in snowy or cloudy conditions to account for hazy conditions.
