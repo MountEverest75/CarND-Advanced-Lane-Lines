@@ -1,7 +1,7 @@
 # Self Driving Car Nano Degree
 ---
 
-**Advanced Lane Finding Project**
+## Advanced Lane Finding Project
 
 * Latest Update - In my second iteration I have removed gradients and focused on R-Channel from RGB colorspace, V-Channel from HSV, L-Channel from from HLS colorspace and B-Channel from LAB colorspace to reduce wobbliness in the video. Although wobbliness could not be eliminated completely, the instances have been significantly minimized and confined to the lane the car is traveling. The R and V color channels handle the overcast, bright and shadow conditions we encounter on the road.
 
