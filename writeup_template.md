@@ -1,7 +1,7 @@
-##Self Driving Car Nano Degree
+# Self Driving Car Nano Degree
 ---
 
-**Advanced Lane Finding Project**
+## Advanced Lane Finding Project
 
 * Latest Update - In my second iteration I have removed gradients and focused on R-Channel from RGB colorspace, V-Channel from HSV, L-Channel from from HLS colorspace and B-Channel from LAB colorspace to reduce wobbliness in the video. Although wobbliness could not be eliminated completely, the instances have been significantly minimized and confined to the lane the car is traveling. The R and V color channels handle the overcast, bright and shadow conditions we encounter on the road.
 
@@ -39,17 +39,17 @@ The goals / steps of this project are the following:
 [video3]: ./harder_challenge_video_output.mp4 "Harder Challenge Video Output"
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
-###Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
+Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
 
 ---
-###Writeup / README
+Writeup / README
 
-####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  [Here](https://github.com/udacity/CarND-Advanced-Lane-Lines/blob/master/writeup_template.md) is a template writeup for this project you can use as a guide and a starting point.  
+1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  [Here](https://github.com/udacity/CarND-Advanced-Lane-Lines/blob/master/writeup_template.md) is a template writeup for this project you can use as a guide and a starting point.  
 
 You're reading it!
-###Camera Calibration
+## Camera Calibration
 
-####1. Briefly state how you computed the camera matrix and distortion coefficients. Provide an example of a distortion corrected calibration image.
+Briefly state how you computed the camera matrix and distortion coefficients. Provide an example of a distortion corrected calibration image.
 
 The code for this step can be found in the second and third code cells of the IPython notebook "P4-Advanced-LaneLinesV1.ipynb" with steps detailed below. The following [Open CV documentation link](http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_calib3d/py_calibration/py_calibration.html) provides reference to the techniques tried as part of this project.
 
@@ -63,7 +63,7 @@ The code for this step can be found in the second and third code cells of the IP
 
 ![alt text][image1]
 
-## Camera Calibration
+### Camera Calibration Steps
 1. As part of this project I have tried capturing Camera Matrix and Distortion Coefficients for all the images. The rotation and translation vectors have been ignored.
 2. The Calibration is was performed using cv2.cameraCalibrate using Object Points and Image Points captured in the previous steps. The matrix was captured under variable mtx and distortion coefficients as dist variable in third code cell of the IPython notebook "P4-Advanced-LaneLinesV1.ipynb".
 3. The distortion coefficient has been adjusted using the following steps:
@@ -87,16 +87,16 @@ dst = dst[y:y+h, x:x+w] #Adjust by cropping Undistorted Image.
 *NB: The findChessBoardCorners() method could not detect corners for all images*
 
 
-###Pipeline (single images)
+## Pipeline (single images)
 
-####1. Provide an example of a distortion-corrected image.
+1. Provide an example of a distortion-corrected image.
 The images below show case the original test images and their appearance once distortion-correction is applied.
 
 ![alt text][image3]
 
 The effect of distortion is very minute, but is often visible at the bottom of the image or by looking at the objects. My original approach was to use undistortion  procedure for curved path, but it was cropping the edges a little more than expected during subsequently perspective transform. So I have used shortest path undistortion by calling cv2.undistort(img, mtx, dist, None, mtx) method. The source code for these steps could be found in code cell#4 in IPython notebook "P4-Advanced-LaneLinesV1.ipynb".
 
-####2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
+2.Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 I have experimented with 3 color schemes RGB, HSV and LAB. The code cell#6 in Python notebook "P4-Advanced-LaneLinesV1.ipynb" has all the details. The suggestion to use LAB channel in forums was the additional approach chosen. The "S Channel" in HSV color scheme and "B Channel" in LAB channel were really useful in detecting lane lines. Especially B Channel with detects Blue-Yellow in LAB color scheme was accurate in finding yellow lines. The samples images with color scheme explorations given below.   
 
 ![alt text][image4]
@@ -128,11 +128,11 @@ Finally I chose to use all gradients for edge detection along with S Channel in 
 ![alt text][image11]
 
 
-####3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
+3.Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
 To experiment perspective transform I tried two functions `warp_image()` and `unwarp()` in code cell#5. Both functions takes accept 3 inputs an image (`img`), source (`src`) and destination (`dst`) points. The unwarp function performed better for me. The warp_image() using image size added some inaccuracies to the pipeline. Also I have experimented with two types of src and dst points below. The first approach is the standard approach learnt in the lessons.
 
-### First sample of src and dst points from lesson samples. This approach has been tried in IPython notebook P4-Advanced-LaneLinesV0.ipynb which is previous version
+First sample of src and dst points from lesson samples. This approach has been tried in IPython notebook P4-Advanced-LaneLinesV0.ipynb which is previous version
 ```
 src = np.float32(
     [[(img_size[0] / 2) - 55, img_size[1] / 2 + 100],
@@ -155,7 +155,7 @@ This resulted in the following source and destination points:
 | 1127, 720     | 960, 720      |
 | 695, 460      | 960, 0        |
 
-### Second sample of src and dst points learnt from forums with src hardcoded and dst dynamically set based on image width. The latest version P4-Advanced-LaneLinesV1.ipynb uses this approach
+Second sample of src and dst points learnt from forums with src hardcoded and dst dynamically set based on image width. The latest version P4-Advanced-LaneLinesV1.ipynb uses this approach
 ```
 src = np.float32([(575,464),
                   (707,464),
@@ -172,7 +172,7 @@ I verified that my perspective transform was working as expected by drawing the 
 
 ![alt text][image5]
 
-####4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
+4.Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
 The functions orchestrate_sliding_windows() in code cell#16 and orchestrate_image_stream() in code cell#25 describe the polynomial fit and second order of polynomial fit to detect lane lines and left/right lines. The first function depicts histogram and detects the starting x positions of left and right lines. The function determines the windows where lane pixels can be found. The image below demonstrates how this process works showcasing Original image, Pipeline image, polynomial fit and histogram side by side comparatively:
 
@@ -180,7 +180,7 @@ The functions orchestrate_sliding_windows() in code cell#16 and orchestrate_imag
 
 The orchestrate_image_stream() performs the same functionality of control break processing from previous fit to build piple for the videos.
 
-####5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
+5.Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
 The radius of curvature calculation has been performed based on the suggested website link in the lessons that can be accessed by [clicking here](http://www.intmath.com/applications-differentiation/8-radius-curvature.php). This logic can be found code cells#18 and 19 in the IPython notebook. The idea is the convert pixels to meters has been borrowed from the following [blog post](https://medium.com/@jeremyeshannon/udacity-self-driving-car-nanodegree-project-4-advanced-lane-finding-f4492136a19d#.bkk0d0vw3).
 
@@ -204,7 +204,7 @@ lane_center_position = (r_fit_x_int + l_fit_x_int) /2
 center_dist = (car_position - lane_center_position) * x_meters_per_pix
 ```
 
-####6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
+6.Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
 Painting the lane area ahead as a polygon has been coded in code cell#20 as draw_lane_polygon() function. A polygon is generated based on the left and right fit co-ordinates. The polygon area is color painted using methods cv2.polyfill() method. The left and right lanes are color marked to identify boundaries using cv2.polylines(). Using inverse perspective matrix the image is warped back to original perspective from birds eye view to show lane ahead. The reverse unwarp is done simply by using this method cv2.warpPerspective(color_warp, Minv, (w, h)).
 
@@ -216,9 +216,9 @@ The painted lane image is annotated by calling cv2.putText() method in put_data_
 
 ---
 
-###Pipeline (video)
+## Pipeline (video)
 
-####1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
+Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
 Here's the [link to my video result](./project_video_output.mp4)
 Here's the [link to my challenge video result](./challenge_video_output.mp4)
@@ -226,9 +226,9 @@ Here's the [link to my harder challenge video result](./harder_challenge_video_o
 
 ---
 
-###Discussion
+## Discussion
 
-####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
 The major problems I encountered were in the challenge videos:
 1. In the Challenge video the painting of lanes has been found to be wobbly, however as the car approached closer to the curve it tried to rectify back into the lane. Tuning the radius of curvature would help reduce the wobbliness and risk of crossing into the adjacent lane.
